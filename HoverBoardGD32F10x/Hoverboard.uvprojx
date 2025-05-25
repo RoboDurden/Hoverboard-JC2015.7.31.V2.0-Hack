@@ -516,11 +516,6 @@
           <targetInfo name="GD32F103" versionMatchMode="fixed"/>
         </targetInfos>
       </package>
-      <package name="GD32F1x0_DFP" schemaVersion="1.1" url="http://gd32mcu.21ic.com/data/documents/yingyongruanjian/" vendor="GigaDevice" version="3.1.0">
-        <targetInfos>
-          <targetInfo name="GD32F103" versionMatchMode="fixed"/>
-        </targetInfos>
-      </package>
     </packages>
     <apis/>
     <components>
