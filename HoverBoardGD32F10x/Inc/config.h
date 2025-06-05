@@ -36,6 +36,7 @@
 // ################################################################################
 
 #define MASTER										  	// Select if firmware is for master or slave board
+#define TESTMODE                      // Select (together with MASTER) to run in testmode - constant speed on motor.
 //#define SLAVE 												// Select if firmware is for master or slave board
 
 // ################################################################################

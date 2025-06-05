@@ -140,7 +140,7 @@ void GPIO_init(void)
 	//JMA enable RCU_AF for alternate functions
 	rcu_periph_clock_enable(RCU_AF);
 	//JMA remapping needed to use PA15 for other than JTAG or SWD
-	gpio_pin_remap_config(GPIO_SWJ_SWDPENABLE_REMAP,  ENABLE);
+	//gpio_pin_remap_config(GPIO_SWJ_SWDPENABLE_REMAP,  ENABLE); // JW: Dont remap PA15 since it is not used (yet).
 
 	// Init green LED
 	//JMA changed for GD32F103
@@ -160,7 +160,7 @@ void GPIO_init(void)
 	//gpio_mode_set(LED_ORANGE_PORT , GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,LED_ORANGE);	
 	//gpio_output_options_set(LED_ORANGE_PORT, GPIO_OTYPE_PP, GPIO_OSPEED_10MHZ, LED_ORANGE);
 	//for F103:
-	gpio_init(LED_ORANGE_PORT, GPIO_MODE_OUT_PP, GPIO_OSPEED_10MHZ, LED_ORANGE);	
+	//gpio_init(LED_ORANGE_PORT, GPIO_MODE_OUT_PP, GPIO_OSPEED_10MHZ, LED_ORANGE); //JW: Skip PA15 for now.
 
 	// Init UPPER/LOWER LED
 	//gpio_mode_set(UPPER_LED_PORT , GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,UPPER_LED_PIN);	

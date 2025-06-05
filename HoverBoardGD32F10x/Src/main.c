@@ -326,12 +326,14 @@ int main (void)
   }
   buzzerFreq = 0;
 
+	#ifndef TESTMODE
 	// Wait until button is released
 	while (gpio_input_bit_get(BUTTON_PORT, BUTTON_PIN))
 	{
 		// Reload watchdog while button is pressed
 		fwdgt_counter_reload();
 	}
+  #endif
 #endif
 
   while(1)
@@ -343,6 +345,9 @@ int main (void)
 			// Request steering data
 			SendSteerDevice();
 		}
+		#ifdef TESTMODE
+		speed = 300;
+		#endif
 		
 		// Calculate expo rate for less steering with higher speeds
 		expo = MAP((float)ABS(speed), 0, 1000, 1, 0.5);
@@ -375,6 +380,9 @@ int main (void)
 		enable = chargeStateLowActive;
 		
 		// Enable channel output
+		#ifdef TESTMODE
+		enable = SET;
+		#endif
 		SetEnable(enable);
 
 		// Decide if slave will be enabled
@@ -452,6 +460,7 @@ int main (void)
 			ShutOff();
     }
 
+		#ifndef TESTMODE
 		// Shut device off when button is pressed
 		if (gpio_input_bit_get(BUTTON_PORT, BUTTON_PIN))
 		{
@@ -467,6 +476,7 @@ int main (void)
 			Delay(100);	
 			ShutOff();
     }
+		#endif
 		
 		// Calculate inactivity timeout (Except, when charger is active -> keep device running)
     if (ABS(pwmMaster) > 50 || ABS(pwmSlave) > 50 || !chargeStateLowActive)
@@ -498,6 +508,9 @@ int main (void)
 //----------------------------------------------------------------------------
 void ShutOff(void)
 {
+#ifdef TESTMODE
+	return;
+#endif
 	int index = 0;
 
 	buzzerPattern = 0;
@@ -532,7 +545,7 @@ void ShutOff(void)
 void ShowBatteryState(uint32_t pin)
 {
 	gpio_bit_write(LED_GREEN_PORT, LED_GREEN, pin == LED_GREEN ? SET : RESET);
-	gpio_bit_write(LED_ORANGE_PORT, LED_ORANGE, pin == LED_ORANGE ? SET : RESET);
+	//gpio_bit_write(LED_ORANGE_PORT, LED_ORANGE, pin == LED_ORANGE ? SET : RESET); // JW: Skip PA15 for now.
 	gpio_bit_write(LED_RED_PORT, LED_RED, pin == LED_RED ? SET : RESET);
 }
 
