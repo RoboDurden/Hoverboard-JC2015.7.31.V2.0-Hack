@@ -37,6 +37,7 @@
 #include "../Inc/config.h"
 #include "../Inc/it.h"
 #include "../Inc/bldc.h"
+#include "../Inc/comms.h" // JW:
 #include "../Inc/commsMasterSlave.h"
 #include "../Inc/commsSteering.h"
 #include "../Inc/commsBluetooth.h"
@@ -301,7 +302,7 @@ int main (void)
 	gpio_bit_write(SELF_HOLD_PORT, SELF_HOLD_PIN, SET);
 
 	// Init usart master slave
-//	USART_MasterSlave_init();
+	USART_MasterSlave_init(); // JW: uncomment
 	
 	// Init ADC
 	ADC_init();
@@ -339,16 +340,18 @@ int main (void)
   while(1)
 	{
 #ifdef MASTER
-		steerCounter++;	
+		steerCounter++;
+		#ifndef TESTMODE
 		if ((steerCounter % 2) == 0)
 		{	
 			// Request steering data
 			SendSteerDevice();
 		}
+		#endif
 		#ifdef TESTMODE
 		speed = 300;
 		#endif
-		
+			
 		// Calculate expo rate for less steering with higher speeds
 		expo = MAP((float)ABS(speed), 0, 1000, 1, 0.5);
 		
@@ -404,10 +407,19 @@ int main (void)
 					break;
 		}
 		
+		#ifdef TESTMODE_BLUEPILL
+		char buf[100];
+		int32_t bv = batteryVoltage * 100;
+		sprintf(buf, "bv %d, speed %d, pwmMaster %d, steerCounter %d.\n\r", bv, speed, pwmMaster, steerCounter);
+		SendBuffer(USART_MASTERSLAVE, (uint8_t*) buf, strlen(buf));
+		#endif
+		
     // Set output
 		SetPWM(pwmMaster);
+		#ifndef TESTMODE
 		SendSlave(-pwmSlave, enableSlave, RESET, chargeStateLowActive, sendSlaveIdentifier, sendSlaveValue);
-		
+		#endif
+	
 		// Increment identifier
 		sendSlaveIdentifier++;
 		if (sendSlaveIdentifier > 2)

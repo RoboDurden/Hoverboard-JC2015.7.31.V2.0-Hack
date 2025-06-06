@@ -194,6 +194,10 @@ void GPIO_init(void)
 	//gpio_output_options_set(USART_MASTERSLAVE_RX_PORT, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, USART_MASTERSLAVE_RX_PIN);	
 	//gpio_af_set(USART_MASTERSLAVE_TX_PORT, GPIO_AF_1, USART_MASTERSLAVE_TX_PIN);
 	//gpio_af_set(USART_MASTERSLAVE_RX_PORT, GPIO_AF_1, USART_MASTERSLAVE_RX_PIN);
+
+	// JW: Configure USART2 TX (PB10) and RX (PB11) pins
+	gpio_init(USART_MASTERSLAVE_TX_PORT, GPIO_MODE_AF_PP, GPIO_OSPEED_50MHZ, USART_MASTERSLAVE_TX_PIN); // JW:
+	gpio_init(USART_MASTERSLAVE_RX_PORT, GPIO_MODE_IN_FLOATING, GPIO_OSPEED_50MHZ, USART_MASTERSLAVE_RX_PIN); // JW:
 	
 	// Init ADC pins
 	//gpio_mode_set(VBATT_PORT, GPIO_MODE_ANALOG, GPIO_PUPD_NONE, VBATT_PIN);
@@ -500,14 +504,19 @@ void ADC_init(void)
 void USART_MasterSlave_init(void)
 {
 	// Enable ADC and DMA clock
-	rcu_periph_clock_enable(RCU_USART1);
+	rcu_periph_clock_enable(RCU_USART2); // JW: was RCU_USART1
 	rcu_periph_clock_enable(RCU_DMA0); //JMA was RCU_DMA
+	
+	// Reset USART
+	usart_deinit(USART_MASTERSLAVE); // JW: added
 	
 	// Init USART for 115200 baud, 8N1
 	usart_baudrate_set(USART_MASTERSLAVE, 115200);
 	usart_parity_config(USART_MASTERSLAVE, USART_PM_NONE);
 	usart_word_length_set(USART_MASTERSLAVE, USART_WL_8BIT);
 	usart_stop_bit_set(USART_MASTERSLAVE, USART_STB_1BIT);
+	usart_hardware_flow_rts_config(USART_MASTERSLAVE, USART_RTS_DISABLE);  // JW: Disable RTS
+	usart_hardware_flow_cts_config(USART_MASTERSLAVE, USART_CTS_DISABLE);  // JW: Disable CTS
 	//JMA no oversampling in F103 usart_oversample_config(USART_MASTERSLAVE, USART_OVSMOD_16);
 	
 	// Enable both transmitter and receiver

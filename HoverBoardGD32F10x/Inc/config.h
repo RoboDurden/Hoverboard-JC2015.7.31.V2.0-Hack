@@ -37,6 +37,7 @@
 
 #define MASTER										  	// Select if firmware is for master or slave board
 #define TESTMODE                      // Select (together with MASTER) to run in testmode - constant speed on motor.
+//#define TESTMODE_BLUEPILL             // Select (together with MASTER & TESTMODE) to run in testmode on bluepill.
 //#define SLAVE 												// Select if firmware is for master or slave board
 
 // ################################################################################
