@@ -37,6 +37,12 @@
 #include "../Inc/commsMasterSlave.h"
 #include "../Inc/commsSteering.h"
 #include "../Inc/commsBluetooth.h"
+#ifdef TESTMODE_BLUEPILL
+#include "../Inc/comms.h" // JW:
+//#include "../Inc/setup.h" // JW:
+#include "stdio.h" // JW:
+#include "string.h" // JW:
+#endif
 
 uint32_t msTicks;
 uint32_t timeoutCounter_ms = 0;
@@ -123,8 +129,28 @@ void TIMER3_IRQHandler(void) //JMA changed from TIMER13 to TIMER3
 // -> pwm of timer0 running with 16kHz -> interrupt every 31,25us
 //----------------------------------------------------------------------------
 //JMA void TIMER0_BRK_UP_TRG_COM_IRQHandler(void)
+#ifdef TESTMODE_BLUEPILL
+uint32_t t0Ticks = 0;
+#endif
 void TIMER0_UP_IRQHandler(void)	//JMA must match the name in startup_gd32f10x_hd.s
 {
+#ifdef TESTMODE_BLUEPILL
+	if ((t0Ticks % 1000) == 0) {
+	char buf[10];
+	buf[0] = 't';
+	buf[1] = '0';
+	buf[2] = '\n';
+	buf[3] = '\r';
+	buf[4] = '\0';
+	/*
+	for (int i = 0; i<10000000; i++) {
+		buf[5] = (char) i;
+		__NOP();
+	}*/
+	SendBuffer(USART_MASTERSLAVE, (uint8_t*) buf, 4);
+	}
+	t0Ticks++;
+#endif
 	// Start ADC conversion
 	adc_software_trigger_enable(ADC0, ADC_REGULAR_CHANNEL); //jma: ADC0 added for GD32F103
 	

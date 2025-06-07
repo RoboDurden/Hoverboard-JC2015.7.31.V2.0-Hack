@@ -404,12 +404,11 @@ ARM Macro Assembler    Page 2
               00002000 
               00000000 
 Command Line: --debug --xref --length=255 --width=132 --diag_suppress=9931,A1950W --cpu=Cortex-M3 --depend=.\objects\startup_gd32f10
-x_hd.d -o.\objects\startup_gd32f10x_hd.o -I.\RTE\_GD32F103 -IC:\Users\johan\AppData\Local\Arm\Packs\ARM\CMSIS-DSP\1.16.2\Include -IC
-:\Users\johan\AppData\Local\Arm\Packs\ARM\CMSIS-DSP\1.16.2\PrivateInclude -IC:\Users\johan\AppData\Local\Arm\Packs\ARM\CMSIS\6.1.0\C
-MSIS\Core\Include -IC:\Users\johan\AppData\Local\Arm\Packs\GigaDevice\GD32F10x_DFP\2.0.2\Device\Firmware\Peripherals\inc -IC:\Users\
-johan\AppData\Local\Arm\Packs\GigaDevice\GD32F10x_DFP\2.0.2\Device\Include --predefine="__UVISION_VERSION SETA 542" --predefine="GD3
-2F10X_MD SETA 1" --predefine="USE_STDPERIPH_DRIVER SETA 1" --predefine="_RTE_ SETA 1" --list=.\listings\startup_gd32f10x_hd.lst RTE/
-Device/GD32F103C8/startup_gd32f10x_hd.s
+x_hd.d -o.\objects\startup_gd32f10x_hd.o -I.\RTE\_GD32F103 -IC:\Users\johan\AppData\Local\Arm\Packs\ARM\CMSIS\6.1.0\CMSIS\Core\Inclu
+de -IC:\Users\johan\AppData\Local\Arm\Packs\GigaDevice\GD32F10x_DFP\2.0.2\Device\Firmware\Peripherals\inc -IC:\Users\johan\AppData\L
+ocal\Arm\Packs\GigaDevice\GD32F10x_DFP\2.0.2\Device\Include --predefine="__UVISION_VERSION SETA 542" --predefine="GD32F10X_MD SETA 1
+" --predefine="USE_STDPERIPH_DRIVER SETA 1" --predefine="_RTE_ SETA 1" --list=.\listings\startup_gd32f10x_hd.lst RTE/Device/GD32F103
+C8/startup_gd32f10x_hd.s
 
 
 

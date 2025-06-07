@@ -45,7 +45,7 @@
 #include "stdlib.h"
 #include "string.h"
 #include <math.h>     
-#include "arm_math.h" 
+//#include "arm_math.h" // JW: Comment out. To remove dependency to CMSIS-DSP
 
 #ifdef MASTER
 int32_t steer = 0; 												// global variable for steering. -1000 to 1000
