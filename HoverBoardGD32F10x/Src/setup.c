@@ -382,6 +382,7 @@ void PWM_init(void)
 //----------------------------------------------------------------------------
 // Initializes the ADC for polling use
 //----------------------------------------------------------------------------
+// JW: Old deprecated? Not used, commented out in main...
 void ADC_init_Poll(void)
 {
 	// Enable ADC clock only
@@ -449,7 +450,7 @@ void ADC_init(void)
 	dma_init_struct_adc.memory_addr = (uint32_t)&adc_buffer;
 	dma_init_struct_adc.memory_inc = DMA_MEMORY_INCREASE_ENABLE;
 	dma_init_struct_adc.memory_width = DMA_MEMORY_WIDTH_16BIT;
-	dma_init_struct_adc.number = 1; //JMA was 2
+	dma_init_struct_adc.number = 2; // JW: was 1! JMA was 2
 	dma_init_struct_adc.periph_addr = (uint32_t)&ADC_RDATA(ADC0); //JMA (ADC0) added. was &ADC_RDATA
 	dma_init_struct_adc.periph_inc = DMA_PERIPH_INCREASE_DISABLE;
 	dma_init_struct_adc.periph_width = DMA_PERIPHERAL_WIDTH_16BIT;
@@ -464,14 +465,14 @@ void ADC_init(void)
 	dma_interrupt_enable(DMA0, DMA_CH0, DMA_CHXCTL_FTFIE); //JMA DMA0 added
 	
 	// At least clear number of remaining data to be transferred by the DMA 
-	dma_transfer_number_config(DMA0, DMA_CH0, 1); //was 2 JMA DMA0 added
+	dma_transfer_number_config(DMA0, DMA_CH0, 2); // JW: was 1! was 2 JMA DMA0 added
 	
 	// Enable DMA channel 0
 	dma_channel_enable(DMA0, DMA_CH0); //JMA DMA0 added
 	
 	adc_channel_length_config(ADC0, ADC_REGULAR_CHANNEL, 1); //was 2 JMA ADC0 added
 	adc_regular_channel_config(ADC0, 0, VBATT_CHANNEL, ADC_SAMPLETIME_13POINT5); //JMA ADC0 added
-//	adc_regular_channel_config(ADC0, 1, CURRENT_DC_CHANNEL, ADC_SAMPLETIME_13POINT5); //JMA ADC0 added
+	adc_regular_channel_config(ADC0, 1, CURRENT_DC_CHANNEL, ADC_SAMPLETIME_13POINT5); // JW: uncommented! JMA ADC0 added
 	adc_data_alignment_config(ADC0, ADC_DATAALIGN_RIGHT); //JMA ADC0 added
 	
 	// Set trigger of ADC
@@ -496,6 +497,7 @@ void ADC_init(void)
     
 	// Set ADC to scan mode
 	adc_special_function_config(ADC0, ADC_SCAN_MODE, ENABLE); //JMA ADC0 added
+	adc_special_function_config(ADC0, ADC_CONTINUOUS_MODE, ENABLE); // JW: added: to trigger adc and interupt continously.
 }
 
 //----------------------------------------------------------------------------

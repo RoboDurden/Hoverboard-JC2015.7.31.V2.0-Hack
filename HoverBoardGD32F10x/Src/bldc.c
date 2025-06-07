@@ -32,6 +32,12 @@
 #include "../Inc/setup.h"
 #include "../Inc/defines.h"
 #include "../Inc/config.h"
+#ifdef TESTMODE_BLUEPILL
+#include "../Inc/comms.h" // JW:
+#include "../Inc/setup.h" // JW:
+#include "stdio.h" // JW:
+#include "string.h" // JW:
+#endif
 
 // Internal constants
 const int16_t pwm_res = 72000000 / 2 / PWM_FREQ; // = 2000
@@ -188,9 +194,13 @@ void CalculateBLDC(void)
 	currentDC = ABS((adc_buffer.current_dc - offsetdc) * MOTOR_AMP_CONV_DC_AMP);
 
   // Disable PWM when current limit is reached (current chopping), enable is not set or timeout is reached
-	if (currentDC > DC_CUR_LIMIT || bldc_enable == RESET || timedOut == SET)
+	if (currentDC > DC_CUR_LIMIT
+#ifndef TESTMODE
+		|| bldc_enable == RESET || timedOut == SET
+#endif
+	)
 	{
-		timer_automatic_output_disable(TIMER_BLDC);		
+		timer_automatic_output_disable(TIMER_BLDC);
   }
 	else
 	{
@@ -205,11 +215,19 @@ void CalculateBLDC(void)
 	// Determine current position based on hall sensors
   hall = hall_a * 1 + hall_b * 2 + hall_c * 4;
   pos = hall_to_pos[hall];
-	
+
 	// Calculate low-pass filter for pwm value
 	filter_reg = filter_reg - (filter_reg >> FILTER_SHIFT) + bldc_inputFilterPwm;
 	bldc_outputFilterPwm = filter_reg >> FILTER_SHIFT;
 	
+#ifdef TESTMODE_BLUEPILL
+if (buzzerTimer % 100 == 0) {
+	char buf[100];
+	sprintf(buf, "fr %d, bo %d, bt %d.\n\r", filter_reg, bldc_outputFilterPwm, buzzerTimer);
+	SendBuffer(USART_MASTERSLAVE, (uint8_t*) buf, strlen(buf));
+}
+#endif
+
   // Update PWM channels based on position y(ellow), b(lue), g(reen)
   blockPWM(bldc_outputFilterPwm, pos, &y, &b, &g);
 	
