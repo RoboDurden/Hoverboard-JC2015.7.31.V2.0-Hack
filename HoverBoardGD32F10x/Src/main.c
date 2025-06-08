@@ -341,6 +341,9 @@ int main (void)
 	{
 #ifdef MASTER
 		steerCounter++;
+		
+		gpio_bit_write(LED_GREEN_PORT, LED_GREEN, (steerCounter%20) < 10);
+			
 		#ifndef TESTMODE
 		if ((steerCounter % 2) == 0)
 		{	
@@ -558,6 +561,7 @@ void ShutOff(void)
 //----------------------------------------------------------------------------
 void ShowBatteryState(uint32_t pin)
 {
+	return;
 	gpio_bit_write(LED_GREEN_PORT, LED_GREEN, pin == LED_GREEN ? SET : RESET);
 	//gpio_bit_write(LED_ORANGE_PORT, LED_ORANGE, pin == LED_ORANGE ? SET : RESET); // JW: Skip PA15 for now.
 	gpio_bit_write(LED_RED_PORT, LED_RED, pin == LED_RED ? SET : RESET);

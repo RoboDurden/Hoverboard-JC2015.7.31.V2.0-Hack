@@ -136,9 +136,11 @@ void GPIO_init(void)
 	rcu_periph_clock_enable(RCU_GPIOB);
 	rcu_periph_clock_enable(RCU_GPIOC);
 	rcu_periph_clock_enable(RCU_GPIOF);
+
 	
 	//JMA enable RCU_AF for alternate functions
 	rcu_periph_clock_enable(RCU_AF);
+	
 	//JMA remapping needed to use PA15 for other than JTAG or SWD
 	//gpio_pin_remap_config(GPIO_SWJ_SWDPENABLE_REMAP,  ENABLE); // JW: Dont remap PA15 since it is not used (yet).
 
@@ -163,8 +165,11 @@ void GPIO_init(void)
 	//gpio_init(LED_ORANGE_PORT, GPIO_MODE_OUT_PP, GPIO_OSPEED_10MHZ, LED_ORANGE); //JW: Skip PA15 for now.
 
 	// Init UPPER/LOWER LED
-	//gpio_mode_set(UPPER_LED_PORT , GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,UPPER_LED_PIN);	
-	//gpio_output_options_set(UPPER_LED_PORT, GPIO_OTYPE_PP, GPIO_OSPEED_10MHZ, UPPER_LED_PIN);
+	#if defined(UPPER_LED_PIN) && defined(UPPER_LED_PORT)
+		gpio_init(UPPER_LED_PORT, GPIO_MODE_OUT_PP, GPIO_OSPEED_10MHZ, UPPER_LED_PIN);
+		//gpio_mode_set(UPPER_LED_PORT , GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,UPPER_LED_PIN);	
+		//gpio_output_options_set(UPPER_LED_PORT, GPIO_OTYPE_PP, GPIO_OSPEED_10MHZ, UPPER_LED_PIN);
+	#endif
 	//gpio_mode_set(LOWER_LED_PORT , GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,LOWER_LED_PIN);	
 	//gpio_output_options_set(LOWER_LED_PORT, GPIO_OTYPE_PP, GPIO_OSPEED_10MHZ, LOWER_LED_PIN);
 	//for F103:
@@ -185,6 +190,7 @@ void GPIO_init(void)
 	gpio_init(HALL_A_PORT, GPIO_MODE_IN_FLOATING, GPIO_OSPEED_10MHZ, HALL_A_PIN);	
 	gpio_init(HALL_B_PORT, GPIO_MODE_IN_FLOATING, GPIO_OSPEED_10MHZ, HALL_B_PIN);
 	gpio_init(HALL_C_PORT, GPIO_MODE_IN_FLOATING, GPIO_OSPEED_10MHZ, HALL_C_PIN);
+
 
 	// Init USART_MASTERSLAVE
 	//JMA TODO: is different for F103
@@ -215,6 +221,21 @@ void GPIO_init(void)
 	//gpio_output_options_set(DEBUG_PORT, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, DEBUG_PIN);
 	//JMA F103
 	gpio_init(DEBUG_PORT, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, DEBUG_PIN);	
+
+
+
+
+
+//------- deepseek begin
+		// CORRECTED PWM OUTPUT CONFIGURATION:
+    // Changed to alternate function push-pull with higher speed
+    gpio_init(TIMER_BLDC_GH_PORT, GPIO_MODE_AF_PP, GPIO_OSPEED_50MHZ, TIMER_BLDC_GH_PIN);    
+    gpio_init(TIMER_BLDC_BH_PORT, GPIO_MODE_AF_PP, GPIO_OSPEED_50MHZ, TIMER_BLDC_BH_PIN);
+    gpio_init(TIMER_BLDC_YH_PORT, GPIO_MODE_AF_PP, GPIO_OSPEED_50MHZ, TIMER_BLDC_YH_PIN);
+    gpio_init(TIMER_BLDC_GL_PORT, GPIO_MODE_AF_PP, GPIO_OSPEED_50MHZ, TIMER_BLDC_GL_PIN);    
+    gpio_init(TIMER_BLDC_BL_PORT, GPIO_MODE_AF_PP, GPIO_OSPEED_50MHZ, TIMER_BLDC_BL_PIN);
+    gpio_init(TIMER_BLDC_YL_PORT, GPIO_MODE_AF_PP, GPIO_OSPEED_50MHZ, TIMER_BLDC_YL_PIN);
+/*
 
 	// Init emergency shutdown pin JMA TODO No such pin
 	//gpio_mode_set(TIMER_BLDC_EMERGENCY_SHUTDOWN_PORT , GPIO_MODE_AF, GPIO_PUPD_NONE, TIMER_BLDC_EMERGENCY_SHUTDOWN_PIN);
@@ -248,6 +269,8 @@ void GPIO_init(void)
 	//gpio_af_set(TIMER_BLDC_GL_PORT, GPIO_AF_2, TIMER_BLDC_GL_PIN);
   //gpio_af_set(TIMER_BLDC_BL_PORT, GPIO_AF_2, TIMER_BLDC_BL_PIN);
 	//gpio_af_set(TIMER_BLDC_YL_PORT, GPIO_AF_2, TIMER_BLDC_YL_PIN);
+------- deepseek end	*/
+
 	
 	//JMA for F103 no remapping needed fro TIMER0
 	//gpio_pin_remap_config(uint32_t remap, ControlStatus newvalue); //JMA for F103
