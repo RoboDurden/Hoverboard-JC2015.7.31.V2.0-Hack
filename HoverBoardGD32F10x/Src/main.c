@@ -52,7 +52,9 @@ int32_t steer = 0; 												// global variable for steering. -1000 to 1000
 int32_t speed = 0; 												// global variable for speed.    -1000 to 1000
 FlagStatus activateWeakening = RESET;			// global variable for weakening
 FlagStatus beepsBackwards = RESET;  			// global variable for beeps backwards
-			
+
+extern uint32_t msTicks;
+
 extern uint8_t buzzerFreq;    						// global variable for the buzzer pitch. can be 1, 2, 3, 4, 5, 6, 7...
 extern uint8_t buzzerPattern; 						// global variable for the buzzer pattern. can be 1, 2, 3, 4, 5, 6, 7...
 			
@@ -352,7 +354,13 @@ int main (void)
 		}
 		#endif
 		#ifdef TESTMODE
-		speed = 300;
+		//speed = 300;
+			#define MAX_SPEED 500		// can range from 0 to 1000
+			speed = ((MAX_SPEED*12)/1000) * (ABS((	((int32_t)msTicks/3+100) % 400) - 200) - 100);	// msTicks is 1/10 of a millisecond
+			//speed = ((MAX_SPEED*30)/1000) * (ABS((	((int32_t)msTicks/9+100) % 400) - 200) - 100);		// for longer max speed
+			speed = CLAMP(speed , -MAX_SPEED, MAX_SPEED);
+		
+		
 		#endif
 			
 		// Calculate expo rate for less steering with higher speeds
