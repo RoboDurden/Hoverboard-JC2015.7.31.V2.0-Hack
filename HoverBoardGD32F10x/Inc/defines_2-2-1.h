@@ -44,12 +44,15 @@
 //#define TIMER_BLDC_EMERGENCY_SHUTDOWN_PIN GPIO_PIN_12
 //#define TIMER_BLDC_EMERGENCY_SHUTDOWN_PORT GPIOB
 
-// Hall sensor defines JMA OK
-#define HALL_A_PIN GPIO_PIN_0 //was GPIO_PIN_11
+
+#define HALL_A_PIN GPIO_PIN_1
+#define HALL_B_PIN GPIO_PIN_0
+#define HALL_C_PIN GPIO_PIN_2
+
+
+
 #define HALL_A_PORT GPIOA //was GPIOB
-#define HALL_B_PIN GPIO_PIN_1 //was GPIO_PIN_1
 #define HALL_B_PORT GPIOA //was GPIOF
-#define HALL_C_PIN GPIO_PIN_2 //was GPIO_PIN_14
 #define HALL_C_PORT GPIOA //was GPIOC
 
 // Usart master slave defines JMA OK

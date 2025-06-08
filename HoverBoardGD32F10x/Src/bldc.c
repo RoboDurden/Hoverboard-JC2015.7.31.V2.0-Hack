@@ -74,6 +74,8 @@ int16_t offsetcount = 0;
 int16_t offsetdc = 2000;
 uint32_t speedCounter = 0;
 
+uint32_t iDebug = 0;
+
 //----------------------------------------------------------------------------
 // Commutation table
 //----------------------------------------------------------------------------
@@ -150,14 +152,18 @@ void SetPWM(int16_t setPwm)
 	bldc_inputFilterPwm = CLAMP(setPwm, -1000, 1000);
 }
 
+	int y = 0;     // yellow = phase A
+	int b = 0;     // blue   = phase B
+	int g = 0;     // green  = phase C
+
 //----------------------------------------------------------------------------
 // Calculation-Routine for BLDC => calculates with 16kHz
 //----------------------------------------------------------------------------
 void CalculateBLDC(void)
 {
-	int y = 0;     // yellow = phase A
-	int b = 0;     // blue   = phase B
-	int g = 0;     // green  = phase C
+	y = 0;     // yellow = phase A
+	b = 0;     // blue   = phase B
+	g = 0;     // green  = phase C
 	
 	// Calibrate ADC offsets for the first 1000 cycles
   if (offsetcount < 1000)
@@ -200,6 +206,7 @@ void CalculateBLDC(void)
 #endif
 	)
 	{
+		iDebug |= 1;
 		timer_automatic_output_disable(TIMER_BLDC);
   }
 	else
