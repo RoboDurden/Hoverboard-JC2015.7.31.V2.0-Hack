@@ -10,7 +10,7 @@
       <TargetName>GD32F103</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>6190000::V6.19::ARMCLANG</pCCUsed>
+      <pCCUsed>6230000::V6.23::ARMCLANG</pCCUsed>
       <uAC6>1</uAC6>
       <TargetOption>
         <TargetCommonOption>
@@ -80,9 +80,9 @@
             <nStopB2X>0</nStopB2X>
           </BeforeMake>
           <AfterMake>
-            <RunUserProg1>1</RunUserProg1>
+            <RunUserProg1>0</RunUserProg1>
             <RunUserProg2>0</RunUserProg2>
-            <UserProg1Name>fromelf.exe --bin Objects\hoverboard.axf --output hoverboard.bin</UserProg1Name>
+            <UserProg1Name></UserProg1Name>
             <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
@@ -484,16 +484,6 @@
               <FileType>5</FileType>
               <FilePath>.\Inc\led.h</FilePath>
             </File>
-            <File>
-              <FileName>defines_2-2-3.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Inc\defines_2-2-3.h</FilePath>
-            </File>
-            <File>
-              <FileName>defines_2-2-1.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Inc\defines_2-2-1.h</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -524,8 +514,8 @@
     </packages>
     <apis/>
     <components>
-      <component Cclass="CMSIS" Cgroup="CORE" Cvendor="ARM" Cversion="6.0.0" condition="ARMv6_7_8-M Device">
-        <package name="CMSIS" schemaVersion="1.7.7" url="https://www.keil.com/pack/" vendor="ARM" version="6.0.0"/>
+      <component Cclass="CMSIS" Cgroup="CORE" Cvendor="ARM" Cversion="6.1.0" condition="ARMv6_7_8-M Device">
+        <package name="CMSIS" schemaVersion="1.7.36" url="https://www.keil.com/pack/" vendor="ARM" version="6.1.0"/>
         <targetInfos>
           <targetInfo name="GD32F103"/>
         </targetInfos>

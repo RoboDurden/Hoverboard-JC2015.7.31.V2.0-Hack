@@ -497,7 +497,7 @@ void ADC_init(void)
     
 	// Set ADC to scan mode
 	adc_special_function_config(ADC0, ADC_SCAN_MODE, ENABLE); //JMA ADC0 added
-	adc_special_function_config(ADC0, ADC_CONTINUOUS_MODE, ENABLE); // JW: added: to trigger adc and interupt continously.
+	//adc_special_function_config(ADC0, ADC_CONTINUOUS_MODE, ENABLE); // JW: added: to trigger adc and interupt continously.
 }
 
 //----------------------------------------------------------------------------
