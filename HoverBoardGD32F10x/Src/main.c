@@ -45,7 +45,7 @@
 #include "stdlib.h"
 #include "string.h"
 #include <math.h>     
-#include "arm_math.h" 
+//#include "arm_math.h" 
 
 #ifdef MASTER
 int32_t steer = 0; 												// global variable for steering. -1000 to 1000
@@ -467,11 +467,11 @@ int main (void)
 		// Shut device off, when battery is dead
 		else if (batteryVoltage < BAT_LOW_DEAD)
 		{
-      ShutOff();
+      //ShutOff();
     }
 		else
 		{
-			ShutOff();
+			//ShutOff();
     }
 
 		#ifndef TESTMODE
