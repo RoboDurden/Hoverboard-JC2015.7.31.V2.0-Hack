@@ -467,11 +467,11 @@ int main (void)
 		// Shut device off, when battery is dead
 		else if (batteryVoltage < BAT_LOW_DEAD)
 		{
-      ShutOff();
+			//disable shutoff, batteryVoltage might not work ShutOff();
     }
 		else
 		{
-			ShutOff();
+			//disable shutoff, batteryVoltage might not work ShutOff();
     }
 
 		#ifndef TESTMODE
