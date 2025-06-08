@@ -36,10 +36,10 @@
 
 
 #ifdef LAYOUT_2_1
-	#include "defines_2-2-3.h"
+	#include "defines_2-2-1.h"
 #endif
 #ifdef LAYOUT_2_3
-	#include "defines_2-2-1.h"
+	#include "defines_2-2-3.h"
 #endif
 
 // Useful math function defines
