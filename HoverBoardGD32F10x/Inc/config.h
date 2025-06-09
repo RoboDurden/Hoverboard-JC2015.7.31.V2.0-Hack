@@ -33,8 +33,8 @@
 
 #include "gd32f10x.h"
 
-#define LAYOUT_2_1	// Gen2.2.1
-//#define LAYOUT_2_3	// Gen2.2.3
+//#define LAYOUT_2_1	// Gen2.2.1
+#define LAYOUT_2_3	// Gen2.2.3 a.k.a. SMART-L-V2.0 (10 inch)
 
 // ################################################################################
 

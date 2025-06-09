@@ -136,7 +136,7 @@ void TIMER0_UP_IRQHandler(void)	//JMA must match the name in startup_gd32f10x_hd
 {
 	if(timer_interrupt_flag_get(TIMER_BLDC, TIMER_INT_UP))	
 	{
-		#ifdef TESTMODE_BLUEPILL
+		#ifdef TESTMODE_BLUEPILL_
 			if ((t0Ticks % 1000) == 0) {
 			char buf[10];
 			buf[0] = 't';
@@ -157,7 +157,9 @@ void TIMER0_UP_IRQHandler(void)	//JMA must match the name in startup_gd32f10x_hd
 		adc_software_trigger_enable(ADC0, ADC_REGULAR_CHANNEL); //jma: ADC0 added for GD32F103
 		
 		// Clear timer update interrupt flag
-		timer_interrupt_flag_clear(TIMER_BLDC, TIMER_INT_UP);
+		if(timer_interrupt_flag_get(TIMER0, TIMER_INT_UP)) {
+			timer_interrupt_flag_clear(TIMER_BLDC, TIMER_INT_UP);
+		}
 	}
 }
 

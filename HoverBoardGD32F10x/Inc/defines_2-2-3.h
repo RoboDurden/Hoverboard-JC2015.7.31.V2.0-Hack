@@ -7,8 +7,8 @@
 #define LED_GREEN GPIO_PIN_12 //JMA ok
 #define LED_GREEN_PORT GPIOA //JMA ok
 
-//#define UPPER_LED_PIN GPIO_PIN_1
-//#define UPPER_LED_PORT GPIOA
+#define UPPER_LED_PIN GPIO_PIN_11		// robo according to "Hoverboard JC2015.7.31.pdf" JW: was PA1
+#define UPPER_LED_PORT GPIOA
 //#define LOWER_LED_PIN GPIO_PIN_0
 //#define LOWER_LED_PORT GPIOA
 
@@ -44,9 +44,15 @@
 
 // Hall sensor defines JMA OK
 // {{0,1,2},{0,2,1},{1,0,2},{2,0,1},{1,2,0},{2,1,0}};	// possible permutations to test
-#define HALL_A_PIN GPIO_PIN_1
-#define HALL_B_PIN GPIO_PIN_0
-#define HALL_C_PIN GPIO_PIN_2
+// 2: {0,1,2} - shakes and beeps, not turn.
+// 5: {0,2,1} - spins even smoother. still low high pitch sound, The best permutation!
+// 1: {1,0,2} - spins but vibrate and beeps
+// 6: {2,0,1} - Not turning and beeps. The worst permutation.
+// 3: {1,2,0} - shake and beeps, no turn
+// 4: {2,1,0} - spins but vibrates
+#define HALL_A_PIN GPIO_PIN_0
+#define HALL_B_PIN GPIO_PIN_2
+#define HALL_C_PIN GPIO_PIN_1
 
 #define HALL_A_PORT GPIOA //was GPIOB
 #define HALL_B_PORT GPIOA //was GPIOF
@@ -63,9 +69,10 @@
 #define VBATT_PIN	GPIO_PIN_5//was GPIO_PIN_4
 #define VBATT_PORT GPIOA //was GPIOA
 #define VBATT_CHANNEL ADC_CHANNEL_5 //was ADC_CHANNEL_4
-#define CURRENT_DC_PIN	GPIO_PIN_6 //GPIO_PIN_7 //was GPIO_PIN_6
+
+#define CURRENT_DC_PIN	GPIO_PIN_7 // robo according to "Hoverboard JC2015.7.31.pdf", was GPIO_PIN_6
 #define CURRENT_DC_PORT GPIOA //was GPIOA
-#define CURRENT_DC_CHANNEL ADC_CHANNEL_6 //ADC_CHANNEL_7 //was ADC_CHANNEL_6
+#define CURRENT_DC_CHANNEL ADC_CHANNEL_7 // robo according to "Hoverboard JC2015.7.31.pdf", was ADC_CHANNEL_6
 
 // Self hold defines JMA OK
 #define SELF_HOLD_PIN GPIO_PIN_4 //was GPIO_PIN_2
