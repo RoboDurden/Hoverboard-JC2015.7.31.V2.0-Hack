@@ -48,9 +48,6 @@
 #define HALL_A_PIN GPIO_PIN_1
 #define HALL_B_PIN GPIO_PIN_0
 #define HALL_C_PIN GPIO_PIN_2
-
-
-
 #define HALL_A_PORT GPIOA //was GPIOB
 #define HALL_B_PORT GPIOA //was GPIOF
 #define HALL_C_PORT GPIOA //was GPIOC

@@ -144,19 +144,20 @@ void GPIO_init(void)
 	//JMA remapping needed to use PA15 for other than JTAG or SWD
 	//gpio_pin_remap_config(GPIO_SWJ_SWDPENABLE_REMAP,  ENABLE); // JW: Dont remap PA15 since it is not used (yet).
 
+	
 	// Init green LED
 	//JMA changed for GD32F103
 	//Was for F130:
 	//gpio_mode_set(LED_GREEN_PORT , GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,LED_GREEN);	
 	//gpio_output_options_set(LED_GREEN_PORT, GPIO_OTYPE_PP, GPIO_OSPEED_10MHZ, LED_GREEN);
 	//for F103:
-	gpio_init(LED_GREEN_PORT, GPIO_MODE_OUT_PP, GPIO_OSPEED_10MHZ, LED_GREEN);
+	gpio_init(LED_GREEN_PORT, GPIO_MODE_OUT_PP, GPIO_OSPEED_50MHZ, LED_GREEN);
 	
 	// Init red LED
 	//gpio_mode_set(LED_RED_PORT , GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,LED_RED);	
 	//gpio_output_options_set(LED_RED_PORT, GPIO_OTYPE_PP, GPIO_OSPEED_10MHZ, LED_RED);
 	//for F103:
-	gpio_init(LED_RED_PORT, GPIO_MODE_OUT_PP, GPIO_OSPEED_10MHZ, LED_RED);	
+	gpio_init(LED_RED_PORT, GPIO_MODE_OUT_PP, GPIO_OSPEED_50MHZ, LED_RED);	
 
 	// Init orange LED
 	//gpio_mode_set(LED_ORANGE_PORT , GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,LED_ORANGE);	
@@ -166,7 +167,7 @@ void GPIO_init(void)
 
 	// Init UPPER/LOWER LED
 	#if defined(UPPER_LED_PIN) && defined(UPPER_LED_PORT)
-		gpio_init(UPPER_LED_PORT, GPIO_MODE_OUT_PP, GPIO_OSPEED_10MHZ, UPPER_LED_PIN);
+		gpio_init(UPPER_LED_PORT, GPIO_MODE_OUT_PP, GPIO_OSPEED_50MHZ, UPPER_LED_PIN);
 		//gpio_mode_set(UPPER_LED_PORT , GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,UPPER_LED_PIN);	
 		//gpio_output_options_set(UPPER_LED_PORT, GPIO_OTYPE_PP, GPIO_OSPEED_10MHZ, UPPER_LED_PIN);
 	#endif
@@ -327,7 +328,7 @@ void PWM_init(void)
 	// Set up the basic parameter struct for the timer
 	timerBldc_paramter_struct.counterdirection 	= TIMER_COUNTER_UP;
 	timerBldc_paramter_struct.prescaler 				= 0;
-	timerBldc_paramter_struct.alignedmode 			= TIMER_COUNTER_CENTER_DOWN;
+	timerBldc_paramter_struct.alignedmode 			= TIMER_COUNTER_CENTER_BOTH;	//will be needed for Gen2.x_BLDC_SINE TIMER_COUNTER_CENTER_DOWN
 	timerBldc_paramter_struct.period						= 72000000 / 2 / PWM_FREQ;
 	timerBldc_paramter_struct.clockdivision 		= TIMER_CKDIV_DIV1;
 	timerBldc_paramter_struct.repetitioncounter = 0;
@@ -374,7 +375,7 @@ void PWM_init(void)
 	timerBldc_break_parameter_struct.deadtime 				= DEAD_TIME;
 	timerBldc_break_parameter_struct.breakstate				= TIMER_BREAK_ENABLE;
 	timerBldc_break_parameter_struct.breakpolarity		= TIMER_BREAK_POLARITY_LOW;
-	timerBldc_break_parameter_struct.outputautostate 	= TIMER_OUTAUTO_ENABLE;
+	timerBldc_break_parameter_struct.outputautostate 	= TIMER_OUTAUTO_ENABLE;		// GD32F103: TIMER_BREAK_DISABLE
 	
 	// Configure the timer with the break parameter struct
 	timer_break_config(TIMER_BLDC, &timerBldc_break_parameter_struct);
