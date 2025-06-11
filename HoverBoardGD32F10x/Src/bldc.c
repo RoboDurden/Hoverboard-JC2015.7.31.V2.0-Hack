@@ -32,7 +32,7 @@
 #include "../Inc/setup.h"
 #include "../Inc/defines.h"
 #include "../Inc/config.h"
-#ifdef TESTMODE_BLUEPILL
+#ifdef TESTMODE_BLUEPILL_
 #include "../Inc/comms.h" // JW:
 #include "../Inc/setup.h" // JW:
 #include "stdio.h" // JW:
@@ -227,7 +227,7 @@ void CalculateBLDC(void)
 	filter_reg = filter_reg - (filter_reg >> FILTER_SHIFT) + bldc_inputFilterPwm;
 	bldc_outputFilterPwm = filter_reg >> FILTER_SHIFT;
 	
-#ifdef TESTMODE_BLUEPILL
+#ifdef TESTMODE_BLUEPILL_
 if (buzzerTimer % 100 == 0) {
 	char buf[100];
 	sprintf(buf, "fr %d, bo %d, bt %d.\n\r", filter_reg, bldc_outputFilterPwm, buzzerTimer);

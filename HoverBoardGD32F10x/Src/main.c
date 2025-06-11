@@ -318,7 +318,7 @@ int main (void)
 	fwdgt_counter_reload();
 
 	// Init usart steer/bluetooth
-//	USART_Steer_COM_init();
+	USART_Steer_COM_init(); // JW: uncomment
 
 #ifdef MASTER
 	// Startup-Sound
@@ -423,7 +423,8 @@ int main (void)
 		char buf[100];
 		int32_t bv = batteryVoltage * 100;
 		sprintf(buf, "bv %d, speed %d, pwmMaster %d, steerCounter %d.\n\r", bv, speed, pwmMaster, steerCounter);
-		SendBuffer(USART_MASTERSLAVE, (uint8_t*) buf, strlen(buf));
+		//SendBuffer(USART_MASTERSLAVE, (uint8_t*) buf, strlen(buf));
+		SendBuffer(USART_STEER_COM, (uint8_t*) buf, strlen(buf));
 		}
 		#endif
 		
