@@ -143,6 +143,7 @@ void GPIO_init(void)
 	
 	//JMA remapping needed to use PA15 for other than JTAG or SWD
 	//gpio_pin_remap_config(GPIO_SWJ_SWDPENABLE_REMAP,  ENABLE); // JW: Dont remap PA15 since it is not used (yet).
+	gpio_pin_remap_config(GPIO_USART0_REMAP, ENABLE); // JW: Remap USART0 to PB6 and PB7
 
 	// Init green LED
 	//JMA changed for GD32F103
@@ -288,8 +289,8 @@ void GPIO_init(void)
 	//gpio_output_options_set(USART_STEER_COM_TX_PORT, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, USART_STEER_COM_TX_PIN);
 	//gpio_output_options_set(USART_STEER_COM_RX_PORT, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, USART_STEER_COM_RX_PIN);	
 	//JMA F103
-	gpio_init(USART_STEER_COM_TX_PORT, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, USART_STEER_COM_TX_PIN);
-	gpio_init(USART_STEER_COM_RX_PORT, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, USART_STEER_COM_RX_PIN);
+	gpio_init(USART_STEER_COM_TX_PORT, GPIO_MODE_AF_PP, GPIO_OSPEED_50MHZ, USART_STEER_COM_TX_PIN);       // JW: Configure PB6 as USART0 TX (Alternate Function Push-Pull)
+	gpio_init(USART_STEER_COM_RX_PORT, GPIO_MODE_IN_FLOATING, GPIO_OSPEED_50MHZ, USART_STEER_COM_RX_PIN); // JW: Configure PB7 as USART0 RX (Input Floating)
 	//JMA F103 TODO check if AF needed for USART GPIOB PIN6 and 7
 	//gpio_af_set(USART_STEER_COM_TX_PORT, GPIO_AF_0, USART_STEER_COM_TX_PIN);
 	//gpio_af_set(USART_STEER_COM_RX_PORT, GPIO_AF_0, USART_STEER_COM_RX_PIN);
@@ -595,11 +596,16 @@ void USART_Steer_COM_init(void)
 	rcu_periph_clock_enable(RCU_USART0);
 	rcu_periph_clock_enable(RCU_DMA0); //JMA was RCU_DMA
 	
+	// Reset USART
+	usart_deinit(USART_STEER_COM); // JW: added
+
 	// Init USART for 19200 baud, 8N1
 	usart_baudrate_set(USART_STEER_COM, 19200);
 	usart_parity_config(USART_STEER_COM, USART_PM_NONE);
 	usart_word_length_set(USART_STEER_COM, USART_WL_8BIT);
 	usart_stop_bit_set(USART_STEER_COM, USART_STB_1BIT);
+	usart_hardware_flow_rts_config(USART_STEER_COM, USART_RTS_DISABLE);  // JW: Disable RTS
+	usart_hardware_flow_cts_config(USART_STEER_COM, USART_CTS_DISABLE);  // JW: Disable CTS
 	//JMA no oversampling in F103 usart_oversample_config(USART_STEER_COM, USART_OVSMOD_16);
 	
 	// Enable both transmitter and receiver

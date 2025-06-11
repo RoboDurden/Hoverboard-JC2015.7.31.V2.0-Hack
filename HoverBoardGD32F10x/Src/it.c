@@ -37,7 +37,7 @@
 #include "../Inc/commsMasterSlave.h"
 #include "../Inc/commsSteering.h"
 #include "../Inc/commsBluetooth.h"
-#ifdef TESTMODE_BLUEPILL
+#ifdef TESTMODE_BLUEPILL_
 #include "../Inc/comms.h" // JW:
 //#include "../Inc/setup.h" // JW:
 #include "stdio.h" // JW:
@@ -129,7 +129,7 @@ void TIMER3_IRQHandler(void) //JMA changed from TIMER13 to TIMER3
 // -> pwm of timer0 running with 16kHz -> interrupt every 31,25us
 //----------------------------------------------------------------------------
 //JMA void TIMER0_BRK_UP_TRG_COM_IRQHandler(void)
-#ifdef TESTMODE_BLUEPILL
+#ifdef TESTMODE_BLUEPILL_
 uint32_t t0Ticks = 0;
 #endif
 void TIMER0_UP_IRQHandler(void)	//JMA must match the name in startup_gd32f10x_hd.s
