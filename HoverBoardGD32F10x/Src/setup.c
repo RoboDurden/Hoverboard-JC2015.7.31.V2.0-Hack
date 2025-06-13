@@ -556,36 +556,36 @@ void USART_MasterSlave_init(void)
 	// Interrupt channel 3/4 enable
 	//nvic_irq_enable(DMA_Channel3_4_IRQn, 2, 0);
 	//JMA F103 cannel 3 and 4 are separate. Only channel 4 is used so only channel 4 interrupt enabled
-	nvic_irq_enable(DMA0_Channel3_IRQn, 2, 0);
+	nvic_irq_enable(DMA0_Channel2_IRQn, 2, 0); // JW: Changed to Channel2 (from Channel4)
 
 // Initialize DMA channel 4 for USART_SLAVE RX
-	dma_deinit(DMA0, DMA_CH4); //JMA DMA0 added
+	dma_deinit(DMA0, DMA_CH2); // JW: Changed to CH2 (from CH4). JMA DMA0 added
 	dma_init_struct_usart.direction = DMA_PERIPHERAL_TO_MEMORY;
 	dma_init_struct_usart.memory_addr = (uint32_t)usartMasterSlave_rx_buf;
 	dma_init_struct_usart.memory_inc = DMA_MEMORY_INCREASE_ENABLE;
 	dma_init_struct_usart.memory_width = DMA_MEMORY_WIDTH_8BIT;
 	dma_init_struct_usart.number = USART_MASTERSLAVE_RX_BUFFERSIZE;
-	dma_init_struct_usart.periph_addr = USART_MASTERSLAVE_DATA_RX_ADDRESS;
+	dma_init_struct_usart.periph_addr = (uint32_t)&USART_DATA(USART_MASTERSLAVE); // JW: USART_MASTERSLAVE_DATA_RX_ADDRESS;
 	dma_init_struct_usart.periph_inc = DMA_PERIPH_INCREASE_DISABLE;
 	dma_init_struct_usart.periph_width = DMA_PERIPHERAL_WIDTH_8BIT;
 	dma_init_struct_usart.priority = DMA_PRIORITY_ULTRA_HIGH;
-	dma_init(DMA0, DMA_CH4, &dma_init_struct_usart); //JMA DMA0 added & added before dma_init_struct_usart
+	dma_init(DMA0, DMA_CH2, &dma_init_struct_usart); // JW: Changed to CH2 (from CH4). JMA DMA0 added & added before dma_init_struct_usart
 	
 	// Configure DMA mode
-	dma_circulation_enable(DMA0, DMA_CH4); //JMA DMA0 added
-	dma_memory_to_memory_disable(DMA0, DMA_CH4); //JMA DMA0 added
+	dma_circulation_enable(DMA0, DMA_CH2); // JW: Changed to CH2 (from CH4). JMA DMA0 added
+	dma_memory_to_memory_disable(DMA0, DMA_CH2); // JW: Changed to CH2 (from CH4). JMA DMA0 added
 
 	// USART DMA enable for transmission and receive
 	usart_dma_receive_config(USART_MASTERSLAVE, USART_DENR_ENABLE);
 	
 	// Enable DMA transfer complete interrupt
-	dma_interrupt_enable(DMA0, DMA_CH4, DMA_CHXCTL_FTFIE); //JMA DMA0 added
+	dma_interrupt_enable(DMA0, DMA_CH2, DMA_CHXCTL_FTFIE); // JW: Changed to CH2 (from CH4). JMA DMA0 added
 	
 	// At least clear number of remaining data to be transferred by the DMA 
-	dma_transfer_number_config(DMA0, DMA_CH4, 1); //JMA DMA0 added
+	dma_transfer_number_config(DMA0, DMA_CH2, 1); // JW: Changed to CH2 (from CH4). JMA DMA0 added
 	
 	// Enable dma receive channel
-	dma_channel_enable(DMA0, DMA_CH4); //JMA DMA0 added
+	dma_channel_enable(DMA0, DMA_CH2); // JW: Changed to CH2 (from CH4). JMA DMA0 added
 }
 
 //----------------------------------------------------------------------------
@@ -619,33 +619,33 @@ void USART_Steer_COM_init(void)
 	// Interrupt channel 1/2 enable
 	//nvic_irq_enable(DMA_Channel1_2_IRQn, 2, 0);
 	//JMA F103 cannel 3 and 4 are separate. Only channel 2 is used so only channel 2 interrupt enabled
-	nvic_irq_enable(DMA0_Channel2_IRQn, 2, 0);
+	nvic_irq_enable(DMA0_Channel4_IRQn, 2, 0); // JW: Changed to Channel4 (from Channel2)
 	// Initialize DMA channel 2 for USART_STEER_COM RX
-	dma_deinit(DMA0, DMA_CH2); //JMA DMA0 added
+	dma_deinit(DMA0, DMA_CH4); // JW: Changed to CH4 (from CH2). JMA DMA0 added
 	dma_init_struct_usart.direction = DMA_PERIPHERAL_TO_MEMORY;
 	dma_init_struct_usart.memory_addr = (uint32_t)usartSteer_COM_rx_buf;
 	dma_init_struct_usart.memory_inc = DMA_MEMORY_INCREASE_ENABLE;
 	dma_init_struct_usart.memory_width = DMA_MEMORY_WIDTH_8BIT;
 	dma_init_struct_usart.number = USART_STEER_COM_RX_BUFFERSIZE;
-	dma_init_struct_usart.periph_addr = USART_STEER_COM_DATA_RX_ADDRESS;
+	dma_init_struct_usart.periph_addr = (uint32_t)&USART_DATA(USART_STEER_COM); // JW: USART_STEER_COM_DATA_RX_ADDRESS;
 	dma_init_struct_usart.periph_inc = DMA_PERIPH_INCREASE_DISABLE;
 	dma_init_struct_usart.periph_width = DMA_PERIPHERAL_WIDTH_8BIT;
 	dma_init_struct_usart.priority = DMA_PRIORITY_ULTRA_HIGH;
-	dma_init(DMA0, DMA_CH2, &dma_init_struct_usart); //JMA DMA0 added "&" inserted
+	dma_init(DMA0, DMA_CH4, &dma_init_struct_usart); // JW: Changed to CH4 (from CH2). JMA DMA0 added "&" inserted
 	
 	// Configure DMA mode
-	dma_circulation_enable(DMA0, DMA_CH2); //JMA DMA0 added
-	dma_memory_to_memory_disable(DMA0, DMA_CH2); //JMA DMA0 added
+	dma_circulation_enable(DMA0, DMA_CH4); // JW: Changed to CH4 (from CH2). JMA DMA0 added
+	dma_memory_to_memory_disable(DMA0, DMA_CH4); // JW: Changed to CH4 (from CH2). JMA DMA0 added
 
 	// USART DMA enable for transmission and receive
 	usart_dma_receive_config(USART_STEER_COM, USART_DENR_ENABLE);
 	
 	// Enable DMA transfer complete interrupt
-	dma_interrupt_enable(DMA0, DMA_CH2, DMA_CHXCTL_FTFIE); //JMA DMA0 added
+	dma_interrupt_enable(DMA0, DMA_CH4, DMA_CHXCTL_FTFIE); // JW: Changed to CH4 (from CH2). JMA DMA0 added
 	
 	// At least clear number of remaining data to be transferred by the DMA 
-	dma_transfer_number_config(DMA0, DMA_CH2, 1); //JMA DMA0 added
+	dma_transfer_number_config(DMA0, DMA_CH4, 1); // JW: Changed to CH4 (from CH2). JMA DMA0 added
 	
 	// Enable dma receive channel
-	dma_channel_enable(DMA0, DMA_CH2); //JMA DMA0 added
+	dma_channel_enable(DMA0, DMA_CH4); // JW: Changed to CH4 (from CH2). JMA DMA0 added
 }

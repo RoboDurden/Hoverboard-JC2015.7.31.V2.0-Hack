@@ -186,13 +186,13 @@ void DMA0_Channel0_IRQHandler(void) //JMA must match the name in startup_gd32f10
 
 
 //----------------------------------------------------------------------------
-// This function handles DMA_Channel1_2_IRQHandler interrupt
+// This function handles DMA0_Channel4_IRQHandler interrupt
 // Is asynchronously called when USART0 RX finished
 //----------------------------------------------------------------------------
-void DMA_Channel1_2_IRQHandler(void)
+void DMA0_Channel4_IRQHandler(void) // JW: must match the name in startup_gd32f10x_hd.s
 {
-	// USART steer/bluetooth RX
-	if (dma_interrupt_flag_get(DMA0, DMA_CH2, DMA_INT_FLAG_FTF)) //jma: DMA0 added
+	// USART0 steer/bluetooth RX
+	if (dma_interrupt_flag_get(DMA0, DMA_CH4, DMA_INT_FLAG_FTF)) // JW: changed from DMA_CH2 to DMA_CH4. jma: DMA0 added
 	{
 #ifdef MASTER
 		// Update USART steer input mechanism
@@ -202,24 +202,24 @@ void DMA_Channel1_2_IRQHandler(void)
 		// Update USART bluetooth input mechanism
 		UpdateUSARTBluetoothInput();
 #endif
-		dma_interrupt_flag_clear(DMA0, DMA_CH2, DMA_INT_FLAG_FTF); //jma: DMA0 added        
+		dma_interrupt_flag_clear(DMA0, DMA_CH4, DMA_INT_FLAG_FTF); // JW: changed from DMA_CH2 to DMA_CH4. jma: DMA0 added
 	}
 }
 
 
 //----------------------------------------------------------------------------
-// This function handles DMA_Channel3_4_IRQHandler interrupt
-// Is asynchronously called when USART_SLAVE RX finished
+// This function handles DMA0_Channel2_IRQHandler interrupt
+// Is asynchronously called when USART2 MasterSlave RX finished
 //----------------------------------------------------------------------------
-void DMA_Channel3_4_IRQHandler(void)
+void DMA0_Channel2_IRQHandler(void) // JW: must match the name in startup_gd32f10x_hd.s
 {
 	// USART master slave RX
-	if (dma_interrupt_flag_get(DMA0, DMA_CH4, DMA_INT_FLAG_FTF)) //jma: DMA0 added
+	if (dma_interrupt_flag_get(DMA0, DMA_CH2, DMA_INT_FLAG_FTF)) // JW: changed to DMA_CH2 (from DMA_CH4). jma: DMA0 added
 	{
 		// Update USART master slave input mechanism
 		UpdateUSARTMasterSlaveInput();
 		
-		dma_interrupt_flag_clear(DMA0, DMA_CH4, DMA_INT_FLAG_FTF); //jma: DMA0 added       
+		dma_interrupt_flag_clear(DMA0, DMA_CH2, DMA_INT_FLAG_FTF); // JW: changed to DMA_CH2 (from DMA_CH4). jma: DMA0 added
 	}
 }
 

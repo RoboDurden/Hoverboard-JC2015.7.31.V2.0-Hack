@@ -75,7 +75,16 @@ void SendSteerDevice(void)
 void UpdateUSARTSteerInput(void)
 {
 	uint8_t character = usartSteer_COM_rx_buf[0];
-	
+#ifdef TESTMODE_BLUEPILL
+	sUSARTSteerRecordBufferCounter++;
+	uint8_t buf[5];
+	buf[0] = character;
+	buf[1] = '\n';
+	buf[2] = '\r';
+	buf[3] = '\0';
+	SendBuffer(USART_STEER_COM, (uint8_t*) buf, 3);
+	return;
+#endif
 	// Start character is captured, start record
 	if (character == '/')
 	{

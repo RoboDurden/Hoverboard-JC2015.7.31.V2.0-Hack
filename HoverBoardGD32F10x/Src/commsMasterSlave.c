@@ -79,7 +79,16 @@ uint16_t CalcCRC(uint8_t *ptr, int count);
 void UpdateUSARTMasterSlaveInput(void)
 {
 	uint8_t character = usartMasterSlave_rx_buf[0];
-	
+#ifdef TESTMODE_BLUEPILL
+	sUSARTMasterSlaveRecordBufferCounter++;
+	uint8_t buf[5];
+	buf[0] = character;
+	buf[1] = '\n';
+	buf[2] = '\r';
+	buf[3] = '\0';
+	SendBuffer(USART_MASTERSLAVE, (uint8_t*) buf, 3);
+	return;
+#endif
 	// Start character is captured, start record
 	if (character == '/')
 	{
