@@ -346,7 +346,7 @@ int main (void)
 		
 		gpio_bit_write(LED_GREEN_PORT, LED_GREEN, (steerCounter%20) < 10);
 			
-		#ifndef TESTMODE
+		#ifndef TESTMODE_BLUEPILL
 		if ((steerCounter % 2) == 0)
 		{	
 			// Request steering data
