@@ -145,8 +145,7 @@ void GPIO_init(void)
 	//gpio_pin_remap_config(GPIO_SWJ_SWDPENABLE_REMAP,  ENABLE); // JW: Dont remap PA15 since it is not used (yet).
 	gpio_pin_remap_config(GPIO_USART0_REMAP, ENABLE); // JW: Remap USART0 to PB6 and PB7
 
-	
-	// Init green LED
+		// Init green LED
 	//JMA changed for GD32F103
 	//Was for F130:
 	//gpio_mode_set(LED_GREEN_PORT , GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,LED_GREEN);	
