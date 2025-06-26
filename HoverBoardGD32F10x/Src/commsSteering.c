@@ -61,11 +61,20 @@ void SendSteerDevice(void)
 {
 	int index = 0;
 	uint8_t buffer[USART_STEER_TX_BYTES];
-	
+#ifdef TESTMODE
+	if (gpio_input_bit_get(BUTTON_PORT, BUTTON_PIN)) {
+		buffer[0] = '1';
+	}
+	else {
+		buffer[0] = '0';
+	}
+	buffer[1] = '\0';
+	index = 1;
+#else
 	// Ask for steer input
 	buffer[index++] = '/';
 	buffer[index++] = '\n';
-	
+#endif
 	SendBuffer(USART_STEER_COM, buffer, index);
 }
 
