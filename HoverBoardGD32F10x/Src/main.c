@@ -47,6 +47,7 @@
 #include <math.h>     
 //#include "arm_math.h" // JW: Comment out. To remove dependency to CMSIS-DSP
 
+int32_t iBug = -1;
 #ifdef MASTER
 int32_t steer = 0; 												// global variable for steering. -1000 to 1000
 int32_t speed = 0; 												// global variable for speed.    -1000 to 1000
@@ -353,12 +354,10 @@ int main (void)
 			SendSteerDevice();
 		}
 		#endif
-		#ifdef TESTMODE
-		//speed = 300;
-			#define MAX_SPEED 500		// can range from 0 to 1000
-			speed = ((MAX_SPEED*12)/1000) * (ABS((	((int32_t)msTicks/3+100) % 400) - 200) - 100);	// msTicks is 1/10 of a millisecond
-			//speed = ((MAX_SPEED*30)/1000) * (ABS((	((int32_t)msTicks/9+100) % 400) - 200) - 100);		// for longer max speed
-			speed = CLAMP(speed , -MAX_SPEED, MAX_SPEED);
+		#ifdef TESTSPEED
+			speed = ((TESTSPEED*12)/1000) * (ABS((	((int32_t)msTicks/3+100) % 400) - 200) - 100);	// msTicks is 1/10 of a millisecond
+			//speed = ((TESTSPEED*30)/1000) * (ABS((	((int32_t)msTicks/9+100) % 400) - 200) - 100);		// for longer max speed
+			speed = CLAMP(speed , -TESTSPEED, TESTSPEED);
 		
 		
 		#endif
@@ -449,8 +448,8 @@ int main (void)
 //		batteryVoltage = batteryVoltage * 0.999 + ((float)adc_regular_data_read(ADC0) * ADC_BATTERY_VOLT) * 0.001;
 //		adc_flag_clear(ADC0, ADC_FLAG_EOC); //Clear the EOC flag
 
-		// Show green battery symbol when battery level BAT_LOW_LVL1 is reached
-    if (batteryVoltage > BAT_LOW_LVL1)
+		
+    if (batteryVoltage > BAT_LOW_LVL1)	// Show green battery symbol when battery level BAT_LOW_LVL1 is reached
 		{
 			// Show green battery light
 			ShowBatteryState(LED_GREEN);
@@ -458,8 +457,7 @@ int main (void)
 			// Beeps backwards
 			BeepsBackwards(beepsBackwards);
 		}
-		// Make silent sound and show orange battery symbol when battery level BAT_LOW_LVL2 is reached
-    else if (batteryVoltage > BAT_LOW_LVL2 && batteryVoltage < BAT_LOW_LVL1)
+    else if (batteryVoltage > BAT_LOW_LVL2)	// Make silent sound and show orange battery symbol when battery level BAT_LOW_LVL2 is reached
 		{
 			// Show orange battery light
 			ShowBatteryState(LED_ORANGE);
@@ -467,8 +465,7 @@ int main (void)
       buzzerFreq = 5;
       buzzerPattern = 8;
     }
-		// Make even more sound and show red battery symbol when battery level BAT_LOW_DEAD is reached
-		else if  (batteryVoltage > BAT_LOW_DEAD && batteryVoltage < BAT_LOW_LVL2)
+		else if  (batteryVoltage > BAT_LOW_DEAD)	// Make even more sound and show red battery symbol when battery level BAT_LOW_DEAD is reached
 		{
 			// Show red battery light
 			ShowBatteryState(LED_RED);
@@ -476,18 +473,16 @@ int main (void)
       buzzerFreq = 5;
       buzzerPattern = 1;
     }
-		// Shut device off, when battery is dead
-		else if (batteryVoltage < BAT_LOW_DEAD)
+		else	// Shut device off, when battery is dead
 		{
-			//disable shutoff, batteryVoltage might not work ShutOff();
-    }
-		else
-		{
-			//disable shutoff, batteryVoltage might not work ShutOff();
+			#ifdef BATTERY_LOW_SHUTOFF
+				ShutOff();
+			#endif
     }
 
 		#ifndef TESTMODE
 		// Shut device off when button is pressed
+		iBug = gpio_input_bit_get(BUTTON_PORT, BUTTON_PIN);
 		if (gpio_input_bit_get(BUTTON_PORT, BUTTON_PIN))
 		{
 			ShowBatteryState(LED_GREEN);

@@ -33,15 +33,24 @@
 
 #include "gd32f10x.h"
 
-//#define LAYOUT_2_1	// Gen2.2.1
-#define LAYOUT_2_3	// Gen2.2.3 a.k.a. SMART-L-V2.0 (10 inch)
+//#define SETUP_ROBO
+
+#ifdef SETUP_ROBO
+	#define LAYOUT_2_1	// Gen2.2.1
+	#define BAT_CELLS         	7        // battery number of cells. Normal Hoverboard battery: 10s
+#else
+	#define LAYOUT_2_3	// Gen2.2.3 a.k.a. SMART-L-V2.0 (10 inch)
+	#define BAT_CELLS         	10        // battery number of cells. Normal Hoverboard battery: 10s
+#endif
 
 // ################################################################################
 
 #define MASTER										  	// Select if firmware is for master or slave board
-#define TESTMODE                      // Select (together with MASTER) to run in testmode - constant speed on motor.
-//#define TESTMODE_BLUEPILL             // Select (together with MASTER & TESTMODE) to run in testmode on bluepill.
+#define TESTSPEED		500						// will overwrite speed with +-TESTSPEED. Can range from 0 to 1000
+//#define TESTMODE                   // Select (together with MASTER) to run in testmode.
+//#define TESTMODE_BLUEPILL          // Select (together with MASTER & TESTMODE) to run in testmode on bluepill.
 //#define SLAVE 												// Select if firmware is for master or slave board
+
 
 // ################################################################################
 
@@ -61,13 +70,13 @@
 
 // ################################################################################
 
-#define BAT_LOW_LVL1     35.0       // Gently beeps, show green battery symbol above this Level.
-#define BAT_LOW_LVL2     33.0       // Battery almost empty, show orange battery symbol above this Level. Charge now! 
-#define BAT_LOW_DEAD     31.0       // Undervoltage lockout, show red battery symbol above this Level.
-// ONLY DEBUG-LEVEL!!!
-//#define BAT_LOW_LVL1     29.0
-//#define BAT_LOW_LVL2     28.0
-//#define BAT_LOW_DEAD     27.0
+//#define BATTERY_LOW_SHUTOFF		// will shut off the board below BAT_LOW_DEAD = BAT_CELLS * CELL_LOW_DEAD, 
+
+
+#define CELL_LOW_LVL1     3.5       // Gently beeps, show green battery symbol above this Level.
+#define CELL_LOW_LVL2     3.3       // Battery almost empty, show orange battery symbol above this Level. Charge now! 
+#define CELL_LOW_DEAD     3.1       // Undervoltage lockout, show red battery symbol above this Level.
+
 
 // ################################################################################
 #endif

@@ -42,6 +42,11 @@
 	#include "defines_2-2-3.h"
 #endif
 
+#define BAT_LOW_LVL1     BAT_CELLS * CELL_LOW_LVL1	
+#define BAT_LOW_LVL2     BAT_CELLS * CELL_LOW_LVL2
+#define BAT_LOW_DEAD     BAT_CELLS * CELL_LOW_DEAD
+
+
 // Useful math function defines
 #define ABS(a) (((a) < 0.0) ? -(a) : (a))
 #define CLAMP(x, low, high) (((x) > (high)) ? (high) : (((x) < (low)) ? (low) : (x)))
